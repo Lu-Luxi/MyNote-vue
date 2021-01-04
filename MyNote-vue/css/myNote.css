@@ -1,0 +1,45 @@
+:root {
+    --primary-color: #587B77;
+    --secondary-color: #014040;
+    --call-action: #8fbabf;
+    --title-color:#091b2f;
+    --text-color:#999999;
+    --light-green:#F4F9F2;
+    --gray:#93939c;
+   
+  }
+
+/* body{
+    
+    background-color: var( --secondary-color);
+} */
+.font-14{
+    font-size: 14px;
+}
+
+.weather-forcast{
+    background-color:var(--primary-color) ;
+    color: white;
+}
+
+/* 按鈕樣式 */
+.btnstyle-big{
+    width: 80px;
+    height: 45px;
+    background-color: var(--primary-color);
+    color:white;
+    border-color:var(--primary-color);
+    border: 1px solid transparent;
+    text-align: center;
+    vertical-align: middle;
+    cursor: pointer;
+    /* padding: 0.375rem 0.75rem; */
+    border-radius: 0.25rem;
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+
+  }
+  .btnstyle-big:hover{
+    background-color: var(--call-action);
+    color: var(--white);
+  }
+ 

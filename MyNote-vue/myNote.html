@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>簡易記事本</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"
+        integrity="sha384-q2kxQ16AaE6UbzuKqyBE9/u/KzioAlnx2maXQHiDX9d4/zp8Ok3f+M7DPm+Ib6IU"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.min.js"
+        integrity="sha384-pQQkAEnwaBkjpqZ8RU1fF1AKtTcHJwFl3pblpTlHXybJjHpMYo79HY3hIi4NKxyj"
+        crossorigin="anonymous"></script>
+        <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="./css/myNote.css">
+   
+    </head>
+
+<body>
+    <!-- Vue的CDN -->
+    <script src="./js/vue.js"></script>
+   
+
+    <!-- Vue 掛載點 -->
+    <div class="text-center mt-3">
+        <h1>簡易記事本</h1>
+    </div>
+    
+    <div id="app">
+        
+        <div class="container-fluid mt-5">
+            <div class="row">
+                <div class="col-4 bg-lihght">
+                    <div class="card text-center">
+                        <div class="card-header" style="background-color: var(--primary-color); color: white;">
+                            <h3>新增記事</h3>
+                        </div>
+                        <div class="card-body" style="background-color: var(--light-green);">
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" id="noteSummary" style="background-color: var(--secondary-color);color:white;">日期</span>
+                                <input type="date" class="form-control" v-model='newNote.date'  placeholder="選擇日期">
+                            </div>
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" id="noteSummary" style="background-color: var(--secondary-color);color:white;">摘要</span>
+                                <input type="text" class="form-control" v-model='newNote.summary'  placeholder="請填入記事摘要">
+                            </div>
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" id="noteContent" style="background-color: var(--secondary-color); color: white" >內容</span>
+                                <input type="text" class="form-control" v-model='newNote.content'  placeholder="請填入記事內容">
+                            </div>
+                            <button @click='addNote' class="btn btnstyle-big" >新增</button>
+                        </div>
+                    </div>
+    
+                </div>
+                <div class="col border" style="background-color: var(--light-green);">
+                    <!-- <h3 class="text-center ">清單</h3> -->
+                    <table class="table table-striped">
+                        <thead>
+                            <tr class="text-center">
+                                <th>日期</th>
+                                <th>摘要</th>
+                                <th>內容</th>
+                                <th colspan="2" >操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="text-center" v-for='note of notes'>
+                                <td>{{note.date}} </td>
+                                <td>{{note.summary}} </td>
+                                <td>{{note.content}}</td>
+                                <td class="text-center">
+                                    <!-- <button type="button" class="btn btn-danger btn-sm" @click='deleteNote(note[".key"] )'data-bs-toggle="modal" data-bs-target="#deleteModel">X</button> -->
+                                    <button type="button" class="btn btn-danger btn-sm" @click='selectNote(note)'  data-bs-toggle="modal" data-bs-target="#deleteModal">X</button>
+                                </td>
+                                
+                            </tr>
+                        </tbody>
+                       
+                    </table>
+                </div>
+                <div class="col-2 mb-0 border rounded mx-2 weather-forcast">
+                    <!-- <h4 class=" text-center">天氣預報</h4> -->
+                    <div class="text-center  mb-3">
+                        <h4 class="fw-bold" >{{weather.weatherStatus}}</h4> 
+                        <p class="font-14">降雨機率:{{weather.rain}}</p>
+                        <img v-bind:src="src" class="w-75 h-75"alt="" >
+                    </div>
+                   
+                    <div>
+                        <h2 class="d-inline">{{weather.highestTemperature}}</h2>
+                        <div class="d-inline">/</div>
+                        <div class="d-inline">{{weather.lowestTemperature}}</div><hr class="my-1">
+                        <!-- <div class="float-end ">{{weather.weatherStatus}}</div>  -->
+                    </div>
+                    <div class="d-inline mt-5">{{weather.locationName}}</div> 
+                    
+                    <div class="d-inline font-14 float-end mt-1">{{weather.startTime}}</div>
+                    
+                </div>
+    
+            </div>
+    
+        </div>
+        <!-- 刪除model -->
+        <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">確定要刪除{{noteSelected.summary}} </h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                {{noteSelected.content}}
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">放棄</button>
+                  <button type="button" class="btn btn-primary" data-bs-dismiss="modal" @click="deleteNote">刪除</button>
+                </div>
+              </div>
+            </div>
+          </div>
+    </div>
+
+    <script src="./js/myNote.js"></script>
+</body>
+
+</html>
